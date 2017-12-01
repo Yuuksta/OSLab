@@ -17,8 +17,8 @@ int main (){
     int status;
     char messsage[20];
     pipe(pipefd);//initial pipe
-    signal(SIGINT,function_main);
     if((p1 = fork()) == 0){  //first son process
+        signal(SIGINT,SIG_IGN);
         signal(SIGUSR1,function1);
         char str[20];
         while(1){
@@ -29,6 +29,7 @@ int main (){
         }
     }
     else if((p2 = fork()) == 0){ //second son process
+        signal(SIGINT,SIG_IGN);
         signal(SIGUSR2,function2);
             while(1){
             read(pipefd[0],messsage,20);
@@ -37,6 +38,7 @@ int main (){
         }
     }
     else{
+        signal(SIGINT,function_main);       //father process
         waitpid(p1,&status,0);
         waitpid(p2,&status,0);
         close(pipefd[0]); //close pipe
