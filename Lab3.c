@@ -11,7 +11,7 @@
 
 #define SHMKEY 36
 #define SHMLEN 10
-#define SINGLE_SIZE 10
+#define SINGLE_SIZE 100
 #define SEMKEY 2222
 
 void P(int semid, int index);
@@ -95,7 +95,7 @@ void writebuf(char** argv){
         //printf("writebuf:%s\n",bufP[i]);        
     }
     int fileID;//file ID
-    if((fileID = open(argv[2], O_WRONLY)) == 2){
+    if((fileID = open(argv[2], O_RDWR | O_CREAT,0666)) == 2){
         printf("file open error\n");
         exit(0);
     }
